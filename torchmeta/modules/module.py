@@ -26,7 +26,8 @@ class MetaModule(nn.Module):
             if isinstance(module, MetaModule) else [],
             prefix=prefix, recurse=recurse)
         for elem in gen:
-            yield elem
+            if elem[1].requires_grad:
+                yield elem
 
     def meta_parameters(self, recurse=True):
         for name, param in self.meta_named_parameters(recurse=recurse):
